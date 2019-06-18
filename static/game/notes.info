@@ -1,0 +1,5 @@
+Room states:
+  waiting - waits for enough players
+  votingT - voting for race type
+  votingL - voting for lap count
+  playing - the race is happening

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300" rel="stylesheet">
+<meta charset="utf-8">
+<title>OpenRace by OPLO</title>
+</head>
+<body>
+  <div id="play">
+    <div id="svg-container"></div>
+  </div>
+  <div id = "lapTBack">
+    <div class = "center desc">Vote for race type:</div><br>
+    <div class = "center">
+      <button id="lap1" sl = "false" class = "vb desc largeButton" onclick = "selectVoteType(1, this)">Sprint<br><span class = "smaller">3-10 laps</span></button>
+      <button id="lap2" sl = "false" class = "vb desc largeButton" onclick = "selectVoteType(2, this)">Ride<br><span class = "smaller">10-24 laps</span></button>
+      <button id="lap3" sl = "false" class = "vb desc largeButton" onclick = "selectVoteType(3, this)">Marathon<br><span class = "smaller">25-50 laps</span></button>
+    </div>
+    <div class = "center"><div class = "desc voteTimer noselect">10</div></div>
+    <div class = "center bottom">
+      <div class = "desc infoForVote smaller">
+        You may choose multiple types. The most voted for race type is used. In case of multiple, it is chosen randomly.
+      </div>
+    </div>
+  </div>
+  <div id = "lapCBack">
+      <div class = "center desc">Vote for lap count (<span id = "raceType" value = "1">Sprint</span>):</div><br>
+      <div class = "center"><button type="button" class = "vb desc" onclick = "lappChange(-1)">&#60;</button><div id = "lapCount" class = "desc">4</div><button type="button" class = "vb desc noselect" onclick = "lappChange(1)">&#62;</button></div>
+      <div class = "center"><div class = "desc voteTimer noselect">10</div></div>
+      <div class = "center bottom">
+      <div class = "desc infoForVote smaller">
+        The rounded average of all votes is used for lap count. Starting positions are determined randomly.
+      </div>
+    </div>
+  </div>
+  <div class = "queueStartWrapper" id = "queueBoard">
+    <div class = "queueStartContainer">
+        <button onclick = "changeQueueType(queueStart.innerHTML);" id = "queueStart">Queue in!</button>
+        <div onclick = "changeQueueType(queueStart.innerHTML);" id = "queuePlayerAmount" class = "noselect">Players:<br><span id = "playersInQueue">0</span> / 4</div>
+    </div>
+  </div>
+  <div class = "gameStandingsContainer" id = "gameStandingsScreen1">
+    <div class = "topStandingsContainer">
+      <div>Event Standings</div>
+    </div>
+    <div class = "bottomStandingsContainer">
+      <div id = "standingsList">
+        <div class = "eventStand">1.</div>
+        <div class = "eventStand">2.</div>
+        <div class = "eventStand">3.</div>
+        <div class = "eventStand">4.</div>
+      </div>
+      <div id = "standingsListTimes">
+        <div id="goingTime" class = "eventStand">0.000</div>
+        <div class = "eventStand">-----</div>
+        <div class = "eventStand">-----</div>
+        <div class = "eventStand">-----</div>
+      </div>
+    </div>
+  </div>
+  <div class = "gameStatsWrapper" id = "gameStandingsScreen2">
+    <div class = "cTimeContainer">
+        <div id = "lapTimeDisplay" class = "timeBlock rounded xl" upTime = "true">00:13.450</div>
+    </div>
+    <div class = "gameStatsContainer">
+        <div id = "thisSegmentTime" class = "timeBlock large"><span style = "font-size: 33px;" id = "thisSegmentTimeDisplay" upTime = "true">-</span><br><span style = "font-size: 12px;">World's best:</span><br><span style = "font-size: 20px;">-----</span></div>
+        <div id = "speedd" class = "timeBlock lText"><span style = "font-size: 39px;" id = "carCurrentSpeed">250</span><br><span style = "font-size: 25px; border-top: 2px solid rgba(255, 255, 255, 0.4);" id = "carCurrentLap">1 / 6</span></div>
+        <div id = "prevSegmentTime" class = "timeBlock large"><span style = "font-size: 33px;" id = "lastSegmentTimeDisplay">-</span><br><span style = "font-size: 12px;">World's best:</span><br><span style = "font-size: 20px;">-----</span></div>
+    </div>
+    <div class = "infoGameContainer">
+        <div class = "toolTip large">This segment</div>
+        <div id = "carSpeed" class = "toolTip">Speed/Lap</div>
+        <div id = "carSpeed" class = "toolTip large">Previous segment</div>
+    </div>
+  </div>
+  <div class="wrapper" id = "loginScreen">
+    <div class="container">
+      <h1>OpenRace</h1>
+      <p>You can only use letters, numbers and underscores</p>
+      <div class="form">
+        <input type="text" placeholder="Your Username" id = "userN">
+        <button onclick = "getStartUser();" id="login-button">Let's Race!</button>
+      </div>
+      <p>Your username will be used for online leaderboards and displayed to other players</p>
+    </div>
+  </div>
+  <div class = "endScreenWrapper" id = "endScreen">
+    <div class = "endScreenContainer">
+      <div id = "placeDisplay">You finished in 1rd place! Here are some of your stats:</div>
+      <table class="tg">
+        <tr>
+          <th>Best Of:</th>
+          <th>Sector 1</th>
+          <th>Sector 2</th>
+          <th>Sector 3</th>
+          <th>Sector 4</th>
+          <th>Sector 5</th>
+          <th>Sector 6</th>
+          <th>Sector 7</th>
+          <th>Lap</th>
+          <th>Total Time</th>
+        </tr>
+        <tr id = "player1EndStats">
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+        <tr id = "worldRecordComparison">
+          <td>World Record</td>
+          <td colspan = "8">Coming Soon!</td>
+        </tr>
+      </table>
+      <button id = "returnToLobbyFromEnd" onclick = "endScreen.style.display = 'none';">Return to Lobby</button>
+    </div>
+  </div>
+  <div id = "gameStartNumber" class = "noselect"></div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/SVGBuilder.js"></script>
+  <script src="sockets.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
